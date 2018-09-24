@@ -1,3 +1,3 @@
 export const environment = {
-  production: true
-};
+  apiServerURL: 'https://api.sportsliv.com'
+}

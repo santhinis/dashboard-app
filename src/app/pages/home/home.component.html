@@ -1,0 +1,46 @@
+<div class="date-container">
+    <span class="label" >From: <input type="date" class="date-field" [(ngModel)]= from_date (change)="onChange()"></span>    
+    <span class="label" >To: <input type="date" class="date-field" [(ngModel)]= to_date (change)="onChange()"></span>   
+    <span class="label">JACKPOT LABEL: <input class="date-field" type="text" [(ngModel)]= j_label></span> 
+    <span class="label">MATCH NUMBER: <input class="date-field" type="number" [(ngModel)]= no_of_matches></span>
+</div>
+<div class="odds-container">PROBABILITY- {{odds | number:'1.2-10'}} (1/{{1/odds | number:'1.0-0'}}) </div>
+<div class="root-container">  
+<div class="matches-container">
+<div class="market-header">MATCHES [ {{fixtureList.length}} / {{allFixtures.length}} ]</div>
+<div class="fixture" *ngFor="let fixture of fixtureList" [style.background]="fixture.selected?'#D9B311':'#999' " (click)="toggleSelection(fixture)">
+    <div class="tournament">{{ fixture.tournament }} <span>,Match id {{fixture.match_id}}, Date- {{fixture.match_time.split('T')[0]}}  , Time- {{(fixture.match_time.split('T')[1]).slice(0,8)}} </span> </div>
+    <div style="padding-left: 0.5rem;">{{ fixture.home_team_name | titlecase }}</div>
+    <div style="padding-left: 0.5rem;">{{ fixture.away_team_name | titlecase }}</div>
+    <span style="padding-left: 1rem;">{{fixture.match_odds.outcomes[0].points}}</span>
+    <span style="padding-left: 1rem;">{{fixture.match_odds.outcomes[1].points}}</span>
+    <span style="padding-left: 1rem;">{{fixture.match_odds.outcomes[2].points}}</span>
+</div>
+</div>
+<div class="selected-container">
+    <div class="market-header" style="background:#D9B311;color: black">SELECTED MATCHES  [ {{selectedFixtures.length}} ]</div>
+  <div class="fixture" *ngFor="let fixture of selectedFixtures">
+      <div class="tournament">{{ fixture.tournament }} <span>,Match id- {{fixture.match_id}}, Date- {{fixture.match_time.split('T')[0]}} , Time- {{(fixture.match_time.split('T')[1]).slice(0,8)}} </span> </div>
+      <div style="padding-left: 0.5rem;">{{ fixture.home_team_name | titlecase }}</div>
+      <div style="padding-left: 0.5rem;">{{ fixture.away_team_name | titlecase }}</div>
+      <span style="padding-left: 1rem;">{{fixture.match_odds.outcomes[0].points}}</span>
+      <span style="padding-left: 1rem;">{{fixture.match_odds.outcomes[1].points}}</span>
+      <span style="padding-left: 1rem;">{{fixture.match_odds.outcomes[2].points}}</span>
+  </div>
+</div>
+</div>
+<div class="jackpot-details-container">
+    <span class="label">Jackpot start date:  <input class="date-field" type="date" [min]="today" onkeydown="return false" [(ngModel)]= start_date></span> 
+    <span class="label">Jackpot start time[UTC-12 hr]:  <input class="date-field" type="time" [(ngModel)]= start_time></span> 
+    <span class="label">Jackpot end date:  <input class="date-field" type="date" [min]="this.start_date" onkeydown="return false" [(ngModel)]= end_date></span>  
+    <span class="label">Jackpot end time[UTC-12 hr]:  <input class="date-field" type="time" [(ngModel)]= end_time></span>  
+</div>
+<!-- <div class="jackpot-details-container">
+        
+        
+    </div> -->
+<div class="data-container">
+  <span class="label">Stake Amount: <input type="number" class="input-field" [(ngModel)]= stake_amount></span>
+  <span class="label">Win Amount: <input type="number" class="input-field" [(ngModel)]= win_amount ></span> 
+  <div style="text-align:center;"><button class="save" (click)="onSave()">SAVE JACKPOT</button></div> 
+</div>

@@ -1,1 +1,27 @@
 /* You can add global styles to this file, and also import other style files */
+body{
+    background: #757575;
+    margin: 0;
+    /* color: #757575; */
+    color: black;
+    font-size: 16px;
+}
+.snackbar {
+    position: fixed;
+    top: 0;
+    left: 30%;
+    right: 30%;
+    background-color: white;
+    opacity: 0.9;
+    z-index: 10000;
+    width: 50vw !important;
+    /* max-width: 600px !important; */
+    color: #757575;
+    opacity: 20%;
+    font-weight: bold;
+    /* font-size: 1.3em; */
+  }
+  .cdk-live-announcer-element.cdk-visually-hidden{
+      display: none;
+      color: #757575;
+  }

@@ -1,0 +1,16 @@
+.main-container{
+    display: flex;
+    justify-content: space-around;
+    padding: 15px;
+    background: #14805E;
+    height: 30px;
+}
+
+a.list-item{
+    text-decoration: none;
+    color: white;
+    text-transform: uppercase;
+}
+a.active{
+    color: #D9B311;
+}
