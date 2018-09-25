@@ -119,7 +119,10 @@ export class HomeComponent implements OnInit {
           let token= 'Bearer '+this.token['access_token'];
           let question_identifiers='';
           this.selectedFixtures.forEach(element => {
-            question_identifiers= question_identifiers+'%2C1001%23'+element.match_odds.question_identifier.split('#')[1]+'%231001%232%231';
+            question_identifiers= question_identifiers+'1001%23'+element.match_odds.question_identifier.split('#')[1]+'%231001%232%231';
+            if ((this.selectedFixtures.indexOf(element))!=(this.selectedFixtures.length-1)) {
+              question_identifiers= question_identifiers+'&question_identifiers=';
+            }
           });
           this.fixturesService.saveFixtures(token,this.j_label,this.win_amount,this.stake_amount,this.start_date,this.end_date,question_identifiers).subscribe(
             response=>{
