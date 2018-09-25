@@ -34,6 +34,7 @@ export class HomeComponent implements OnInit {
   end_time: Time;
   no_of_matches:Number;
   today= '';
+  status= false;
 
   constructor(
     private fixturesService: FixturesService,
@@ -65,6 +66,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  onCheck(){
+    this.status=!this.status;
+  }
   toggleSelection(match){
     for(let each of this.selectedFixtures){
       if (each.match_id == match.match_id) {
@@ -124,7 +128,7 @@ export class HomeComponent implements OnInit {
               question_identifiers= question_identifiers+'&question_identifiers=';
             }
           });
-          this.fixturesService.saveFixtures(token,this.j_label,this.win_amount,this.stake_amount,this.start_date,this.end_date,question_identifiers).subscribe(
+          this.fixturesService.saveFixtures(token,this.j_label,this.win_amount,this.stake_amount,this.start_date,this.end_date,question_identifiers,this.status).subscribe(
             response=>{
               this.snackbarService.openSnackBar(response['description'],"Dismiss");
               this.newJackpotFix();

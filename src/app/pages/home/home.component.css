@@ -22,6 +22,10 @@ input.date-field{
     color: #666;
     width: 150px;
 }
+input.check-field{
+    height: 50px;
+    width: 100px;
+}
 span.label{
     margin: 10px;
 }

@@ -3,6 +3,7 @@
     <span class="label" >To: <input type="date" class="date-field" [(ngModel)]= to_date (change)="onChange()"></span>   
     <span class="label">JACKPOT LABEL: <input class="date-field" type="text" [(ngModel)]= j_label></span> 
     <span class="label">MATCH NUMBER: <input class="date-field" type="number" [(ngModel)]= no_of_matches></span>
+    <span class="label">SHOW JACKPOT: <input class="check-field" type="checkbox" [(ngModel)]=status (click)="onCheck()"></span>
 </div>
 <div class="odds-container">PROBABILITY- {{odds | number:'1.2-10'}} (1/{{1/odds | number:'1.0-0'}}) </div>
 <div class="root-container">  
