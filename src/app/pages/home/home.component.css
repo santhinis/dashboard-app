@@ -28,6 +28,7 @@ input.check-field{
 }
 span.label{
     margin: 10px;
+    /* text-align: center; */
 }
 
 .input-field{
@@ -47,6 +48,7 @@ div.tournament{
     text-transform: uppercase;
 }
 .matches-container{
+    height: 40vh;
     overflow: scroll;
     background: #666;
 }
@@ -55,8 +57,10 @@ div.tournament{
     margin: 10px;
     color: #D9B311;
     padding: 10px;
+    border: 3px solid white;
 }
 .selected-container{
+    height: 40vh;
     overflow: scroll;
     background: #666;
 }

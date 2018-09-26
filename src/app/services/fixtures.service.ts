@@ -43,4 +43,9 @@ export class FixturesService {
     };
     return this.http.post(saveUrl,data,headers);
   }
+  fetchJackpots() {
+    const jackpotUrl = this.appConfig.getURL() + 'jackpots/get';
+    return this.http.get<any[]>(jackpotUrl);
+  }
+
 }

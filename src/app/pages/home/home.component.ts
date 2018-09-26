@@ -34,7 +34,7 @@ export class HomeComponent implements OnInit {
   end_time: Time;
   no_of_matches:Number;
   today= '';
-  status= false;
+  status= 0;
 
   constructor(
     private fixturesService: FixturesService,
@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit {
   }
 
   onCheck(){
-    this.status=!this.status;
+    this.status=this.status===0?1:0;
   }
   toggleSelection(match){
     for(let each of this.selectedFixtures){
@@ -82,17 +82,17 @@ export class HomeComponent implements OnInit {
     if (this.start_date && this.end_date && this.start_time && this.end_time && this.no_of_matches>=this.selectedFixtures.length+1 && this.no_of_matches<=this.fixtureList.length) {
       for(let each of this.fixtureList){
         if (each.match_id==match.match_id) {
-          if((match.match_time.split('T')[0]> this.start_date && match.match_time.split('T')[0]< this.end_date) 
-          ||(match.match_time.split('T')[0]== this.start_date && this.start_date!==this.end_date && match.match_time.split('T')[1]>=this.start_time)
-          || (match.match_time.split('T')[0]== this.end_date && this.start_date!==this.end_date &&match.match_time.split('T')[1]<=this.end_time )
-          ||(match.match_time.split('T')[0]== this.start_date && this.start_date==this.end_date && match.match_time.split('T')[1]>=this.start_time &&match.match_time.split('T')[1]<=this.end_time)){
+          // if((match.match_time.split('T')[0]> this.start_date && match.match_time.split('T')[0]< this.end_date) 
+          // ||(match.match_time.split('T')[0]== this.start_date && this.start_date!==this.end_date && match.match_time.split('T')[1]>=this.start_time)
+          // || (match.match_time.split('T')[0]== this.end_date && this.start_date!==this.end_date &&match.match_time.split('T')[1]<=this.end_time )
+          // ||(match.match_time.split('T')[0]== this.start_date && this.start_date==this.end_date && match.match_time.split('T')[1]>=this.start_time &&match.match_time.split('T')[1]<=this.end_time)){
           each.selected= true;
           this.selectedMatchIds.push(match.match_id);
           this.selectedFixtures.push(match);
           this.calculateOdds();
-        }
-        else
-          this.handleError(match,'');
+        // }
+        // else
+        //   this.handleError(match,'');
       }
     }
     }
@@ -111,7 +111,7 @@ export class HomeComponent implements OnInit {
   calculateOdds(){
     this.odds =1;
     this.selectedFixtures.forEach(element => {
-      this.odds = this.odds* (1/this.lowestOutcome(element.match_odds.outcomes));
+      this.odds = this.odds * (1/this.lowestOutcome(element.match_odds.outcomes));
     });
   }
 
@@ -131,7 +131,7 @@ export class HomeComponent implements OnInit {
           this.fixturesService.saveFixtures(token,this.j_label,this.win_amount,this.stake_amount,this.start_date,this.end_date,question_identifiers,this.status).subscribe(
             response=>{
               this.snackbarService.openSnackBar(response['description'],"Dismiss");
-              this.newJackpotFix();
+              this.newJackpotFix();            
             },err=>console.log(err)
           )
         },error=>console.log(error)
@@ -172,13 +172,13 @@ export class HomeComponent implements OnInit {
     else if (this.selectedFixtures.length == this.no_of_matches) {
       this.snackbarService.openSnackBar("You cannot select anymore matches!","Dismiss");
     }
-    if (match) {
-      if(match.match_time.split('T')[0]< this.start_date || match.match_time.split('T')[0]> this.end_date)
-        this.snackbarService.openSnackBar("Selected match dates outside bounds!","Dismiss");
-      else if((match.match_time.split('T')[0]== this.start_date && match.match_time.split('T')[1]<=this.start_time)||(match.match_time.split('T')[0]== this.end_date && match.match_time.split('T')[1]>=this.end_time))
-          this.snackbarService.openSnackBar("Selected match time outside bounds!","Dismiss");
-    }
-    else if(label=='save'){
+    // if (match) {
+    //   if(match.match_time.split('T')[0]< this.start_date || match.match_time.split('T')[0]> this.end_date)
+    //     this.snackbarService.openSnackBar("Selected match dates outside bounds!","Dismiss");
+    //   else if((match.match_time.split('T')[0]== this.start_date && match.match_time.split('T')[1]<=this.start_time)||(match.match_time.split('T')[0]== this.end_date && match.match_time.split('T')[1]>=this.end_time))
+    //       this.snackbarService.openSnackBar("Selected match time outside bounds!","Dismiss");
+    // }
+    if(label=='save'){
       if ((this.selectedFixtures.length)!=(this.no_of_matches)) {
         this.snackbarService.openSnackBar("Selected match number doesnt match the number of matches!","Dismiss");
       }
@@ -231,5 +231,13 @@ export class HomeComponent implements OnInit {
     });
     this.fixtureList= this.allFixtures;
 
+  }
+  clearSelected(){
+    this.selectedFixtures=[];
+    this.selectedMatchIds=[];
+    this.allFixtures.forEach(element => {
+      element.selected= false;
+    });
+    this.fixtureList= this.allFixtures;
   }
 }

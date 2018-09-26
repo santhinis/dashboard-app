@@ -13,13 +13,15 @@ import { SnackbarService } from './services/snackbar.service';
 import { MatSnackBarModule } from '@angular/material';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
+import { JackpotsComponent } from './pages/jackpots/jackpots.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    JackpotsComponent
   ],
   imports: [
     BrowserAnimationsModule,
