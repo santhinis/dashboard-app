@@ -1,0 +1,16 @@
+div.fixture{
+    background: #999;
+    margin: 10px;
+}
+div.tournament{
+    background: lightgray;
+    color: black;
+    padding-left: 5px;
+    text-transform: uppercase;
+    padding: 1px;
+}
+.saved-jackpots-container{
+    height: 80vh;
+    overflow: scroll;
+    margin-top: 20px;
+}

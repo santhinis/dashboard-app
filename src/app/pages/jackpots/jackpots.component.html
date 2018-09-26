@@ -1,0 +1,12 @@
+<div class="saved-jackpots-container" *ngIf="createdJackpots.length>0">
+    <div class="fixture" *ngFor="let jackpot of createdJackpots">
+        <div class="tournament">{{ jackpot.label }}</div>
+        <div style="padding-left: 0.5rem;">Win Amount - {{ jackpot.win_amount }}</div>
+        <div style="padding-left: 0.5rem;">Stake Amount - {{ jackpot.stake }}</div>
+        <div style="padding-left: 1rem;">End Date - {{ jackpot.closes_at }}</div>
+        <div *ngFor="let each of jackpot.jackpot_bet_items">
+            <div class="tournament">{{each.tournmanet}}</div>
+            <span style="padding-left: 1rem;">{{each.home_team_name}} Vs {{each.away_team_name}} - {{each.match_time}}</span>
+        </div>
+    </div>
+</div>
