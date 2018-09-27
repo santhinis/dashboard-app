@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit {
         return;
       }
     }
-    if (this.start_date && this.end_date && this.start_time && this.end_time && this.no_of_matches>=this.selectedFixtures.length+1 && this.no_of_matches<=this.fixtureList.length) {
+    if (this.start_date && this.end_date && this.start_time && this.end_time) {
       for(let each of this.fixtureList){
         if (each.match_id==match.match_id) {
           // if((match.match_time.split('T')[0]> this.start_date && match.match_time.split('T')[0]< this.end_date) 

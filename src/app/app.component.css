@@ -1,9 +1,9 @@
 .main-container{
     display: flex;
     justify-content: space-around;
-    padding: 15px;
+    padding: 2vh;
     background: #14805E;
-    height: 30px;
+    height: 5vh;
 }
 
 a.list-item{
