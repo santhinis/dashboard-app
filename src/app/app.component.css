@@ -1,6 +1,7 @@
 .main-container{
     display: flex;
     justify-content: space-around;
+    align-items: center;
     padding: 2vh;
     background: #14805E;
     height: 5vh;

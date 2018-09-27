@@ -79,7 +79,6 @@ export class HomeComponent implements OnInit {
         return;
       }
     }
-    if (this.start_date && this.end_date && this.start_time && this.end_time) {
       for(let each of this.fixtureList){
         if (each.match_id==match.match_id) {
           // if((match.match_time.split('T')[0]> this.start_date && match.match_time.split('T')[0]< this.end_date) 
@@ -90,14 +89,8 @@ export class HomeComponent implements OnInit {
           this.selectedMatchIds.push(match.match_id);
           this.selectedFixtures.push(match);
           this.calculateOdds();
-        // }
-        // else
-        //   this.handleError(match,'');
       }
     }
-    }
-    else
-      this.handleError('','toggle');
   }
   lowestOutcome(outcomes){
     let lowest = outcomes[0].points;
@@ -116,7 +109,7 @@ export class HomeComponent implements OnInit {
   }
 
   onSave(){
-    if (this.j_label && isNumber(this.win_amount) && this.win_amount && isNumber(this.stake_amount) && this.stake_amount && this.start_date && this.end_date && (this.selectedFixtures.length==this.no_of_matches) && this.selectedFixtures.length>0 && (this.start_date<=this.end_date)) {
+    if (this.j_label && this.start_date && this.end_date && this.start_time && this.end_time && isNumber(this.win_amount) && this.win_amount && isNumber(this.stake_amount) && this.stake_amount && this.start_date && this.end_date && (this.selectedFixtures.length==this.no_of_matches) && this.selectedFixtures.length>0 && (this.start_date<=this.end_date)) {
       this.fixturesService.getToken().subscribe(
         response=>{
           this.token= response;
@@ -138,15 +131,15 @@ export class HomeComponent implements OnInit {
       );  
     }
     else
-      this.handleError('','save');
+      this.handleError('','');
   }
   
   handleError(match,label){     
+    if (!this.no_of_matches) {
+      this.snackbarService.openSnackBar("Enter a match number.","Dismiss");
+    }
     if (!isNumber(this.no_of_matches) && this.no_of_matches) {
       this.snackbarService.openSnackBar("Enter a valid match number.","Dismiss");
-    }
-    else if (this.no_of_matches>this.fixtureList.length){
-      this.snackbarService.openSnackBar("Match number exceeded the limit","Dismiss");
     }
     else if (!this.start_date) {
       this.snackbarService.openSnackBar("Enter a valid Jackpot start date","Dismiss");
@@ -166,20 +159,13 @@ export class HomeComponent implements OnInit {
     else if(!this.no_of_matches){
       this.snackbarService.openSnackBar("Enter match number","Dismiss");
     }
-    else if (this.selectedFixtures.length>this.no_of_matches) {
-      this.snackbarService.openSnackBar("Selected match number doesnt match the number of matches!","Dismiss");
-    }
-    else if (this.selectedFixtures.length == this.no_of_matches) {
-      this.snackbarService.openSnackBar("You cannot select anymore matches!","Dismiss");
-    }
     // if (match) {
     //   if(match.match_time.split('T')[0]< this.start_date || match.match_time.split('T')[0]> this.end_date)
     //     this.snackbarService.openSnackBar("Selected match dates outside bounds!","Dismiss");
     //   else if((match.match_time.split('T')[0]== this.start_date && match.match_time.split('T')[1]<=this.start_time)||(match.match_time.split('T')[0]== this.end_date && match.match_time.split('T')[1]>=this.end_time))
     //       this.snackbarService.openSnackBar("Selected match time outside bounds!","Dismiss");
     // }
-    if(label=='save'){
-      if ((this.selectedFixtures.length)!=(this.no_of_matches)) {
+      else if ((this.selectedFixtures.length)!=(this.no_of_matches)) {
         this.snackbarService.openSnackBar("Selected match number doesnt match the number of matches!","Dismiss");
       }
       else if (this.start_date>this.end_date) {
@@ -202,12 +188,6 @@ export class HomeComponent implements OnInit {
       }
       else if (!this.selectedFixtures.length) {
         this.snackbarService.openSnackBar("Select matches","Dismiss");
-      }
-    }
-      else if(label='toggle'){
-        if (this.selectedFixtures.length>this.no_of_matches) {
-          this.snackbarService.openSnackBar("Selected matches greater than match number!","Dismiss");
-        }
     }
   }
   newJackpotFix(){
@@ -239,5 +219,9 @@ export class HomeComponent implements OnInit {
       element.selected= false;
     });
     this.fixtureList= this.allFixtures;
+    if (this.from_date||this.to_date) {
+      this.onChange();
+    }
+   
   }
 }
