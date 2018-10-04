@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { Configuration } from '../../services/configuration';
 
 @Component({
   selector: 'app-login',
@@ -7,9 +8,18 @@ import { Component, OnInit } from '@angular/core';
 })
 export class LoginComponent implements OnInit {
 
-  constructor() { }
+  clientID:string;
+  clientSecret:string;
+  environment='staging';
+  constructor(
+    private configuration:Configuration,
+  ) { }
 
-  ngOnInit() {
+  ngOnInit() {}
+
+  onSave(){
+    this.configuration.setURL(this.environment);
+    this.configuration.clientID= this.clientID;
+    this.configuration.clientSecret = this.clientSecret;
   }
-
 }

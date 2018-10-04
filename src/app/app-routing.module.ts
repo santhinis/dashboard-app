@@ -6,8 +6,8 @@ import { SignupComponent } from './pages/signup/signup.component';
 import { JackpotsComponent } from './pages/jackpots/jackpots.component';
 
 const routes: Routes = [
-  {path:'',component:HomeComponent},
-  {path:'login',component:LoginComponent},
+  {path:'home',component:HomeComponent},
+  {path:'',component:LoginComponent},
   {path:'signup',component:SignupComponent},
   {path:'jackpots',component:JackpotsComponent}
 ];

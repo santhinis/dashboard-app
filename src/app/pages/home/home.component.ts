@@ -7,6 +7,8 @@ import { Token } from '../../models/token';
 import { SnackbarService } from '../../services/snackbar.service';
 import { Time } from '@angular/common';
 import { isNumber, isDate } from 'util';
+import { Configuration } from '../../services/configuration';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-home',
@@ -38,10 +40,15 @@ export class HomeComponent implements OnInit {
 
   constructor(
     private fixturesService: FixturesService,
-    public snackbarService: SnackbarService
+    public snackbarService: SnackbarService,
+    private configuration: Configuration,
+    private router:Router
   ) {}
 
   ngOnInit() {
+    if ( !this.configuration.clientID || !this.configuration.clientSecret) {
+      this.router.navigateByUrl('/');
+    }
     this.setDate();
     this.fixturesService.fetchFixtures().subscribe(
       fixturesResp=>{

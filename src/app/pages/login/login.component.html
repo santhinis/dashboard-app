@@ -1,1 +1,11 @@
-<p>Login works</p>
+<div class="input-fields">
+<span>CLIENT ID: <input style="width:100%" [(ngModel)] =clientID type="text"></span>
+<br>
+<span>CLIENT SECRET: <input style="width:100%" [(ngModel)]=clientSecret type="text"></span>
+<br>
+<span>STAGING<input type="radio" [(ngModel)]=environment value="staging" checked></span>
+<br>
+<span>PRODUCTION: <input type="radio" [(ngModel)]=environment value="production"></span>
+<br>
+<button routerLink="/home" style="text-align:center;" (click)="onSave()">SAVE</button>
+</div>
