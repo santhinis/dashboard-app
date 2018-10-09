@@ -1,3 +1,5 @@
+<span><input type="radio" value="staging" [(ngModel)]=_environment (change)="onClick()" checked>STAGING</span>
+<span><input type="radio" value="production" [(ngModel)]=_environment (change)="onClick()">PRODUCTION</span>
 <div class="saved-jackpots-container" *ngIf="createdJackpots.length>0">
     <div class="fixture" *ngFor="let jackpot of createdJackpots">
         <div class="tournament">{{ jackpot.label }}</div>

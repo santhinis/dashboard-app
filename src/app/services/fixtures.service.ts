@@ -36,11 +36,15 @@ export class FixturesService {
   }
   saveFixtures(token,j_label,win_amount,stake_amount,start_date,end_date,question_identifiers,status){
     let saveUrl = this.appConfig.getURL()+'dashboard/jackpot/save';
-    let data = 'label='+j_label+'&status='+status+'&stake_amount='+stake_amount+'&win_amount='+win_amount+'&start_date='+start_date+'%2000%3A00%3A00&end_date='+end_date+'%2000%3A00%3A00&question_identifiers='+question_identifiers;
+    let data = 'label='+j_label+'&status='+status+'&stake_amount='+stake_amount+'&win_amount='+win_amount+'&start_date='+start_date+'%2000%3A00%3A00&end_date='+end_date+'%2000%3A00%3A00&question_identifiers='+question_identifiers; 
+    console.log(data);
+    console.log(token['token']);
+    
+    
     let headers = {
       headers: new HttpHeaders({
         'Content-Type':  'application/x-www-form-urlencoded;charset=utf-8',
-        'Authorization': token
+        'Authorization': token['token']
       })
     };
     return this.http.post(saveUrl,data,headers);

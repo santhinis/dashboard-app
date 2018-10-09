@@ -7,6 +7,8 @@ export class Configuration {
     private _apiPath = '/cric/api/';
     public clientID: string;
     public clientSecret:string;
+    public token: string;
+
     constructor() {
       }
     setURL(envmt){

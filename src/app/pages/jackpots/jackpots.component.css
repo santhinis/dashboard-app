@@ -1,10 +1,10 @@
 div.fixture{
-    background: #999;
+    background: wheat;
     margin: 10px;
 }
 div.tournament{
-    background: lightgray;
-    color: black;
+    background: black;
+    color: yellow;
     padding-left: 5px;
     text-transform: uppercase;
     padding: 1px;

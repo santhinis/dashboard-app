@@ -17,11 +17,6 @@
     /* margin: 15px; */
 }
 input.date-field{
-    /* border: 1px solid #999;
-    background: #999;
-    color:#999;
-    height: 40px;
-    color: #666; */
     width: 100%;
 }
 input.check-field{
@@ -57,9 +52,9 @@ div.tournament{
     font-size: 14px;
 }
 .market-header{
-    background: #14805E;
+    background: green;
     margin: 10px;
-    color: #D9B311;
+    color: black;
     padding: 10px;
     height: 3vh;
     border: 3px solid white;

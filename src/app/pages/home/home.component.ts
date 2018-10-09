@@ -9,7 +9,8 @@ import { Time } from '@angular/common';
 import { isNumber, isDate } from 'util';
 import { Configuration } from '../../services/configuration';
 import { Router } from '@angular/router';
-
+import { LocalStorageService } from '../../services/local-storage.service';
+import { FormControl } from '@angular/forms';
 @Component({
   selector: 'app-home',
   templateUrl: './home.component.html',
@@ -25,30 +26,42 @@ export class HomeComponent implements OnInit {
   showNoMatchesMessage = '';
   selected: boolean;
   odds=0;
-  from_date:Date;
-  to_date:Date;
+  from_date;
+  to_date= new Date();
   stake_amount:Number;
   win_amount:Number;
   j_label:String;
-  start_date:Date;
+  start_date;
   end_date:Date;
-  start_time: Time;
-  end_time: Time;
+  start_time;
+  end_time;
   no_of_matches:Number;
   today= '';
   status= 0;
+  date = new FormControl(new Date());
+  serializedDate = new FormControl((new Date()).toISOString());
 
   constructor(
     private fixturesService: FixturesService,
     public snackbarService: SnackbarService,
     private configuration: Configuration,
-    private router:Router
-  ) {}
+    private router:Router,
+    private localStorageService:LocalStorageService,
+  ) {
+    this.no_of_matches=3;
+    this.j_label='Weekly';
+    this.stake_amount= 100;
+    this.win_amount = 100000;
+    }
 
   ngOnInit() {
-    if ( !this.configuration.clientID || !this.configuration.clientSecret) {
-      this.router.navigateByUrl('/');
+    let token = this.localStorageService.getStore();
+    console.log(token);
+    if (!token) {
+      this.router.navigateByUrl('/');  
     }
+    else
+      this.configuration.setURL(token['environment']);
     this.setDate();
     this.fixturesService.fetchFixtures().subscribe(
       fixturesResp=>{
@@ -59,9 +72,15 @@ export class HomeComponent implements OnInit {
   }
   setDate(){
     //set date for current day!
-    let today = new Date();
+    let today = new Date();    
     let date_in_json =(today.toJSON());
     this.today = date_in_json.split('T')[0];
+    console.log(this.today);
+    this.from_date = this.today;
+    this.start_date = this.today;
+    this.start_time ='00:00';
+    this.end_time='00:00';
+    
   }
 
   onChange(){
@@ -116,11 +135,10 @@ export class HomeComponent implements OnInit {
   }
 
   onSave(){
-    if (this.j_label && this.start_date && this.end_date && this.start_time && this.end_time && isNumber(this.win_amount) && this.win_amount && isNumber(this.stake_amount) && this.stake_amount && this.start_date && this.end_date && (this.selectedFixtures.length==this.no_of_matches) && this.selectedFixtures.length>0 && (this.start_date<=this.end_date)) {
-      this.fixturesService.getToken().subscribe(
-        response=>{
-          this.token= response;
-          let token= 'Bearer '+this.token['access_token'];
+    if (!this.configuration.token) {
+      this.configuration.token = this.localStorageService.getStore();
+    }
+    if (this.j_label && this.configuration.token && this.start_date && this.end_date && this.start_time && this.end_time && this.win_amount && this.stake_amount && this.start_date && this.end_date && (this.selectedFixtures.length==this.no_of_matches) && this.selectedFixtures.length>0 && (this.start_date<=this.end_date)) {
           let question_identifiers='';
           this.selectedFixtures.forEach(element => {
             question_identifiers= question_identifiers+'1001%23'+element.match_odds.question_identifier.split('#')[1]+'%231001%232%231';
@@ -128,14 +146,12 @@ export class HomeComponent implements OnInit {
               question_identifiers= question_identifiers+'&question_identifiers=';
             }
           });
-          this.fixturesService.saveFixtures(token,this.j_label,this.win_amount,this.stake_amount,this.start_date,this.end_date,question_identifiers,this.status).subscribe(
+          this.fixturesService.saveFixtures(this.configuration.token,this.j_label,this.win_amount,this.stake_amount,this.start_date,this.end_date,question_identifiers,this.status).subscribe(
             response=>{
               this.snackbarService.openSnackBar(response['description'],"Dismiss");
               this.newJackpotFix();            
             },err=>console.log(err)
           )
-        },error=>console.log(error)
-      );  
     }
     else
       this.handleError('','');
@@ -196,6 +212,10 @@ export class HomeComponent implements OnInit {
       else if (!this.selectedFixtures.length) {
         this.snackbarService.openSnackBar("Select matches","Dismiss");
     }
+  }
+  logout(){
+   this.localStorageService.removeStore();
+   this.router.navigateByUrl('/');
   }
   newJackpotFix(){
     this.j_label='';
