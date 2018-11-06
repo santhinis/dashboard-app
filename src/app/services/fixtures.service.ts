@@ -15,8 +15,8 @@ export class FixturesService {
     private appConfig: Configuration,
   ) {}
 
-  fetchFixtures() {
-    let fixturesURL = this.appConfig.getURL() + 'fixtures/get?highlights=1&solution_id=1001';
+  fetchFixtures(from_date) {
+    let fixturesURL = this.appConfig.getURL() + 'fixtures/get?&solution_id=1001&page_size=300&from_date='+from_date;
     return this.http.get<Fixture[]>(fixturesURL);
   }
   getToken(){

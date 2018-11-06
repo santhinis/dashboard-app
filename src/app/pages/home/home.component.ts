@@ -63,7 +63,7 @@ export class HomeComponent implements OnInit {
     else
       this.configuration.setURL(token['environment']);
     this.setDate();
-    this.fixturesService.fetchFixtures().subscribe(
+    this.fixturesService.fetchFixtures(this.from_date).subscribe(
       fixturesResp=>{
         this.allFixtures=fixturesResp;
         this.fixtureList= fixturesResp;
