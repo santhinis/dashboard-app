@@ -46,7 +46,7 @@ export class HomeComponent implements OnInit {
     public snackbarService: SnackbarService,
     private configuration: Configuration,
     private router:Router,
-    private localStorageService:LocalStorageService,
+    private localStorageService:LocalStorageService
   ) {
     this.no_of_matches=3;
     this.j_label='Weekly';
@@ -85,15 +85,16 @@ export class HomeComponent implements OnInit {
 
   onChange(){
     this.fixtureList=[];
-    this.allFixtures.forEach(element => {
-      if ((element.match_time.split('T')[0]>=this.from_date || (!this.from_date)) && (element.match_time.split('T')[0]<=this.to_date || (!this.to_date))) {
-        this.fixtureList.push(element);
-      }
-    });
+    this.fixturesService.fetchFixtures(this.from_date).subscribe(
+      fixturesResp=>{
+        this.allFixtures=fixturesResp;
+        this.fixtureList= fixturesResp; 
+      },
+      err =>console.log(err));
   }
 
   onCheck(){
-    this.status=this.status===0?1:0;
+    this.status=this.status === 0 ? 1 : 0;
   }
   toggleSelection(match){
     for(let each of this.selectedFixtures){
@@ -106,15 +107,12 @@ export class HomeComponent implements OnInit {
       }
     }
       for(let each of this.fixtureList){
-        if (each.match_id==match.match_id) {
-          // if((match.match_time.split('T')[0]> this.start_date && match.match_time.split('T')[0]< this.end_date) 
-          // ||(match.match_time.split('T')[0]== this.start_date && this.start_date!==this.end_date && match.match_time.split('T')[1]>=this.start_time)
-          // || (match.match_time.split('T')[0]== this.end_date && this.start_date!==this.end_date &&match.match_time.split('T')[1]<=this.end_time )
-          // ||(match.match_time.split('T')[0]== this.start_date && this.start_date==this.end_date && match.match_time.split('T')[1]>=this.start_time &&match.match_time.split('T')[1]<=this.end_time)){
+        if (each.match_id == match.match_id) {
           each.selected= true;
           this.selectedMatchIds.push(match.match_id);
           this.selectedFixtures.push(match);
           this.calculateOdds();
+          
       }
     }
   }
